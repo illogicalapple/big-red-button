@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://nrp3ds3r1vmv"]
+
+[ext_resource type="PackedScene" uid="uid://e8pg5eb27y12" path="res://models/button/Button.glb" id="1_uau74"]
+[ext_resource type="Script" path="res://models/button/button.gd" id="2_xium7"]
+
+[sub_resource type="Animation" id="Animation_wp6oo"]
+resource_name = "click"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cylinder:scale:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(80, -0.25, 0, 0.25, 0, 40, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_6f4ns"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cylinder:scale:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(80, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7w47"]
+_data = {
+"RESET": SubResource("Animation_6f4ns"),
+"click": SubResource("Animation_wp6oo")
+}
+
+[node name="Button" instance=ExtResource("1_uau74")]
+script = ExtResource("2_xium7")
+
+[node name="Cube" parent="." index="0"]
+transform = Transform3D(80, 0, 0, 0, 80, 0, 0, 0, 80, 0, 0, 0)
+
+[node name="Cylinder" parent="." index="1"]
+transform = Transform3D(80, 0, 0, 0, 80, 0, 0, 0, 80, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_v7w47")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
